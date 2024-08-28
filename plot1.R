@@ -1,0 +1,11 @@
+# The equivalent memory usage is 891MB if we assumed that each column is a string of 50 bytes (rough estimate)
+
+data<-read.table("household_power_consumption.txt",sep=";",header=TRUE)
+data$Date<-as.Date(data$Date,"%d/%m/%Y")
+start_date<-as.Date("01/02/2007","%d/%m/%Y")
+end_date<-as.Date("02/02/2007","%d/%m/%Y")
+data<-subset(data,Date<=end_date & Date>= start_date)
+data$Time<-format(strptime(data$Time,format="%T"),format="%H:%M:%S")
+png(filename="plot1.png",width=480,height=480,units="px")
+with(data,hist(as.numeric(Global_active_power),col="red",main="Global Active Power",xlab="Global Active Power (kilowatts)"))
+dev.off()
